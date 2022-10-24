@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka
+
+spring:
+  application:
+    name: gateway-service
+#  zipkin:
+#    base-url: http://localhost:9411/
+  cloud:
+    gateway:
+      routes:
+        - id: authorService
+          uri: ${AUTHOR_URL}
+          predicates:
+            - Path=${AUTHOR_PATH}
+          filters:
+            - AddRequestHeader=X-Client,web
+            - AddResponseHeader=X-Type, something from author service
+            - name: CircuitBreaker
+              args:
+                name: authorService
+                fallbackUri: forward:/author-fallback
+        - id: postService
+          uri: ${POST_URL}
+          predicates:
+            - Path=${POST_PATH}
+          filters:
+            - AddRequestHeader=X-Client,web
+            - AddResponseHeader=X-Type, something from post service
+            - name: CircuitBreaker
+              args:
+                name: postService
+                fallbackUri: forward:/post-fallback
+
+
+resilience4j:
+  CircuitBreaker:
+    instances:
+      authorService:
+        slidingWindowSize: 5                      #unit request
+        permittedNumberOfCallsInHalfOpenState: 5  #unit request
+        failureRateThreshold: 50                  #percent
+        waitDurationInOpenState: 5000             #10 seconds
+        registerHealthIndicator: true
+      postService:
+        slidingWindowSize: 5                      #unit request
+        permittedNumberOfCallsInHalfOpenState: 5  #unit request
+        failureRateThreshold: 50                  #percent
+        waitDurationInOpenState: 5000             #10 seconds
+        registerHealthIndicator: true
+  TimeLimiter:
+    instances:
+      authorService:
+        timeoutDuration: 2s
+      postService:
+        timeoutDuration: 10s

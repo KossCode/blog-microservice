@@ -1,0 +1,25 @@
+version: '3'
+services:
+  author-service:
+    image: ua.koss/author-service:latest
+    build:
+      context: .
+    container_name: author-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - author-service-postgre-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://author-service-postgre-db:5432/author-service
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=docker
+  author-service-postgre-db:
+    image: postgres:13.1-alpine
+    restart: always
+    container_name: author-service-postgre-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=author-service
