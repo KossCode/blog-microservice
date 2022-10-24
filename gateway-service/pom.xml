@@ -6,7 +6,6 @@
 		<groupId>ua.koss</groupId>
 		<artifactId>blog-microservice</artifactId>
 		<version>1.0.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<artifactId>gateway-service</artifactId>
