@@ -13,5 +13,5 @@ import java.util.List;
 @ToString
 public class AllPostsDto {
     private int quantity;
-    private List<PostDto> postsDto;
+    private List<PostDto> posts;
 }

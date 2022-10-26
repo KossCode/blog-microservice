@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 import ua.koss.gateway.model.Author;
+import ua.koss.gateway.model.Post;
 
 @Configuration
 public class FallbackConfig {
@@ -17,25 +18,25 @@ public class FallbackConfig {
     @Bean
     public RouterFunction<ServerResponse> routerFunction() {
         return RouterFunctions
-                .route(RequestPredicates.GET("/author-fallback"), this::handleGetFallback)
-                .andRoute(RequestPredicates.POST("/author-fallback"), this::handlePostFallback)
-                .andRoute(RequestPredicates.GET("/post-fallback"), this::handleGetPostFallback)
-                .andRoute(RequestPredicates.POST("/post-fallback"), this::handlePostPostFallback);
+                .route(RequestPredicates.GET("/author-fallback"), this::authorServiceGetFallback)
+                .andRoute(RequestPredicates.POST("/author-fallback"), this::authorServicePostFallback)
+                .andRoute(RequestPredicates.GET("/post-fallback"), this::postServiceGetFallback)
+                .andRoute(RequestPredicates.POST("/post-fallback"), this::postServicePostFallback);
     }
 
-    public Mono<ServerResponse> handleGetFallback(ServerRequest request) {
-        return ServerResponse.ok().body(Mono.empty(), String.class);
-    }
-
-    public Mono<ServerResponse> handlePostFallback(ServerRequest request) {
-        return ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-    }
-
-    public Mono<ServerResponse> handleGetPostFallback(ServerRequest request) {
+    public Mono<ServerResponse> authorServiceGetFallback(ServerRequest request) {
         return ServerResponse.ok().body(Mono.just(Author.builder().build()), Author.class);
     }
 
-    public Mono<ServerResponse> handlePostPostFallback(ServerRequest request) {
+    public Mono<ServerResponse> authorServicePostFallback(ServerRequest request) {
+        return ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE).body(Mono.empty(), String.class);
+    }
+
+    public Mono<ServerResponse> postServiceGetFallback(ServerRequest request) {
+        return ServerResponse.ok().body(Mono.just(Post.builder().build()), Post.class);
+    }
+
+    public Mono<ServerResponse> postServicePostFallback(ServerRequest request) {
         return ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 }

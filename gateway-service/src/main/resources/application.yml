@@ -9,8 +9,8 @@ eureka:
 spring:
   application:
     name: gateway-service
-#  zipkin:
-#    base-url: http://localhost:9411/
+  #  zipkin:
+  #    base-url: http://localhost:9411/
   cloud:
     gateway:
       routes:
@@ -18,6 +18,7 @@ spring:
           uri: ${AUTHOR_URL}
           predicates:
             - Path=${AUTHOR_PATH}
+#            - Method=GET
           filters:
             - AddRequestHeader=X-Client,web
             - AddResponseHeader=X-Type, something from author service
@@ -29,6 +30,7 @@ spring:
           uri: ${POST_URL}
           predicates:
             - Path=${POST_PATH}
+            - Method=GET
           filters:
             - AddRequestHeader=X-Client,web
             - AddResponseHeader=X-Type, something from post service
@@ -37,25 +39,17 @@ spring:
                 name: postService
                 fallbackUri: forward:/post-fallback
 
-
 resilience4j:
   CircuitBreaker:
+    configs:
+      default:
+        slidingWindowSize: 5                      #unit request
+        permittedNumberOfCallsInHalfOpenState: 2  #unit request
+        failureRateThreshold: 50                  #percent
+        waitDurationInOpenState: 3000             #3 seconds
+        registerHealthIndicator: true
     instances:
       authorService:
-        slidingWindowSize: 5                      #unit request
-        permittedNumberOfCallsInHalfOpenState: 5  #unit request
-        failureRateThreshold: 50                  #percent
-        waitDurationInOpenState: 5000             #10 seconds
-        registerHealthIndicator: true
+        baseConfig: default
       postService:
-        slidingWindowSize: 5                      #unit request
-        permittedNumberOfCallsInHalfOpenState: 5  #unit request
-        failureRateThreshold: 50                  #percent
-        waitDurationInOpenState: 5000             #10 seconds
-        registerHealthIndicator: true
-  TimeLimiter:
-    instances:
-      authorService:
-        timeoutDuration: 2s
-      postService:
-        timeoutDuration: 10s
+        baseConfig: default

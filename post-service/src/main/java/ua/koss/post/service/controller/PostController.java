@@ -40,7 +40,7 @@ public class PostController {
         return ResponseEntity.ok(
                                 AllPostsDto.builder()
                                         .quantity(allPosts.size())
-                                        .postsDto(allPosts)
+                                        .posts(allPosts)
                                         .build()
         );
     }
