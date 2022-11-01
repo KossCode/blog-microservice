@@ -18,7 +18,7 @@ public class FallbackConfig {
 
     @PostMapping("/post-fallback")
     private String postMethodPostFallback() {
-        return "post says woops!";
+        return "Post service says: woops! Looks like i`m not working";
     }
 
     @GetMapping("/author-fallback")
@@ -28,6 +28,6 @@ public class FallbackConfig {
 
     @PostMapping("/author-fallback")
     private String postMethodAuthorFallback() {
-        return "post says woops!";
+        return "Author service says: woops! Looks like i`m not working";
     }
 }
