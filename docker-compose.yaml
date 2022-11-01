@@ -67,8 +67,6 @@ services:
     links:
       - post-service-mongo-db
     environment:
-      - spring-data-mongodb-host=post-service-mongo-db
-      - spring-data-mongodb-database=postService-db
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
 
