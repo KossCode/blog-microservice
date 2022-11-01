@@ -4,40 +4,11 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8083/eureka
+      defaultZone: http://eureka-server:8761/eureka
 
 spring:
   application:
     name: gateway-service
-  #  zipkin:
-  #    base-url: http://localhost:9411/
-  cloud:
-    gateway:
-      routes:
-        - id: authorService
-          uri: ${AUTHOR_URL}
-          predicates:
-            - Path=${AUTHOR_PATH}
-#            - Method=GET
-          filters:
-            - AddRequestHeader=X-Client,web
-            - AddResponseHeader=X-Type, something from author service
-            - name: CircuitBreaker
-              args:
-                name: authorService
-                fallbackUri: forward:/author-fallback
-        - id: postService
-          uri: ${POST_URL}
-          predicates:
-            - Path=${POST_PATH}
-            - Method=GET
-          filters:
-            - AddRequestHeader=X-Client,web
-            - AddResponseHeader=X-Type, something from post service
-            - name: CircuitBreaker
-              args:
-                name: postService
-                fallbackUri: forward:/post-fallback
 
 resilience4j:
   CircuitBreaker:

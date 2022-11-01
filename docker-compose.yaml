@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  #Databases
+  author-service-postgre-db:
+    image: postgres:13.1-alpine
+    restart: always
+    container_name: author-service-postgre-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=author-service
+      
+  post-service-mongo-db:
+    image: mongo:latest
+    container_name: post-service-mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+
+  #Internal Services
+  gateway-service:
+    image: ua.koss/gateway-service:1.0.0
+    build:
+      context: ./gateway-service/
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - post-service
+      - author-service
+    environment:
+      - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
+      - SPRING_ZIPKIN_ENABLED=true
+
+  author-service:
+    image: ua.koss/author-service:1.0.0
+    build:
+      context: ./author-service/
+    container_name: author-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - author-service-postgre-db
+      - eureka-server
+      - zipkin-service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://author-service-postgre-db:5432/author-service
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=docker
+      - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
+      - SPRING_ZIPKIN_ENABLED=true
+        
+  post-service:
+    image: ua.koss/post-service:1.0.0
+    build:
+      context: ./post-service/
+    container_name: post-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - post-service-mongo-db
+      - eureka-server
+      - zipkin-service
+    links:
+      - post-service-mongo-db
+    environment:
+      - spring-data-mongodb-host=post-service-mongo-db
+      - spring-data-mongodb-database=postService-db
+      - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
+      - SPRING_ZIPKIN_ENABLED=true
+
+  eureka-server:
+    image: ua.koss/discovery-service:1.0.0
+    build:
+      context: ./discovery-service/
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+
+  #External Services
+  zipkin-service:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    ports:
+      - "9411:9411"

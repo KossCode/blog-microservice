@@ -6,9 +6,10 @@
 		<groupId>ua.koss</groupId>
 		<artifactId>blog-microservice</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>cloud-eureka-discovery-service</artifactId>
+	<artifactId>discovery-service</artifactId>
 	<version>1.0.0</version>
 
 	<dependencies>

@@ -15,7 +15,7 @@
 
 	<packaging>pom</packaging>
 	<modules>
-		<module>cloud-eureka-discovery-service</module>
+		<module>discovery-service</module>
 		<module>gateway-service</module>
 		<module>author-service</module>
 		<module>post-service</module>
@@ -65,4 +65,11 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
 </project>
