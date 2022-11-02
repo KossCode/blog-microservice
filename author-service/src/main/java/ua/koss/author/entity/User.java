@@ -2,40 +2,50 @@ package ua.koss.author.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "USERS")
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@Builder
+@Data
+@Entity
+@Table(name = "BLOG_USERS")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "USERNAME")
-    private String username;
-    @Column(name = "PASSWORD")
+
+    @Column(nullable = false)
+    private String login;
+
+    @Column(nullable = false)
     private String password;
-    @Transient
-    private String passwordConfirm;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @Column(nullable = false)
+    private LocalDate birthday;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_AUTHOR",
+            joinColumns = {
+                    @JoinColumn(name = "USERS_FK", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "AUTHORS_FK", referencedColumnName = "id", unique = true)
+            }
+    )
     private Author author;
 }

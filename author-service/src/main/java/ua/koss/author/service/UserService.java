@@ -1,11 +1,12 @@
 package ua.koss.author.service;
 
 import ua.koss.author.entity.User;
+import ua.koss.author.model.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
-    User findById(long id);
-    List<User> findAll();
+    UserDto createOrUpdateUser(User user);
+    UserDto findById(long id);
+    List<UserDto> findAll();
 }
