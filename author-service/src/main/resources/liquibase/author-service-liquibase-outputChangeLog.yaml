@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1667394473119-1
+    id: 1667394820200-1
     author: k.kryvoshapka (generated)
     changes:
     - createTable:
@@ -21,7 +21,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: authors
 - changeSet:
-    id: 1667394473119-2
+    id: 1667394820200-2
     author: k.kryvoshapka (generated)
     changes:
     - createSequence:
@@ -34,7 +34,7 @@ databaseChangeLog:
         sequenceName: hibernate_sequence
         startValue: 1
 - changeSet:
-    id: 1667394473119-3
+    id: 1667394820200-3
     author: k.kryvoshapka (generated)
     changes:
     - createTable:
@@ -58,7 +58,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: blog_user
 - changeSet:
-    id: 1667394473119-4
+    id: 1667394820200-4
     author: k.kryvoshapka (generated)
     changes:
     - createTable:
@@ -87,7 +87,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: blog_users
 - changeSet:
-    id: 1667394473119-5
+    id: 1667394820200-5
     author: k.kryvoshapka (generated)
     changes:
     - createTable:
@@ -104,7 +104,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: user_author
 - changeSet:
-    id: 1667394473119-6
+    id: 1667394820200-6
     author: k.kryvoshapka (generated)
     changes:
     - addForeignKeyConstraint:
@@ -119,7 +119,7 @@ databaseChangeLog:
         referencedTableName: authors
         validate: true
 - changeSet:
-    id: 1667394473119-7
+    id: 1667394820200-7
     author: k.kryvoshapka (generated)
     changes:
     - addForeignKeyConstraint:
