@@ -44,8 +44,7 @@ public class User {
                     @JoinColumn(name = "USERS_FK", referencedColumnName = "id")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "AUTHORS_FK", referencedColumnName = "id", unique = true)
-            }
-    )
+                    @JoinColumn(name = "AUTHORS_FK", referencedColumnName = "id")
+            })
     private Author author;
 }

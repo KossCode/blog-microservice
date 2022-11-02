@@ -8,6 +8,7 @@ import ua.koss.author.entity.Author;
 import ua.koss.author.entity.User;
 import ua.koss.author.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -25,8 +26,18 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
         author2.setFirstName("Lenny");
         author2.setSecondName("Borinson");
 
-        User admin = User.builder().login("admin").password("YWRtaW4=").author(author1).build();
-        User user = User.builder().login("user").password("dXNlcg==").author(author2).build();
+        User admin = User.builder()
+                .login("admin")
+                .password("YWRtaW4=")
+                .birthday(LocalDate.of(1950,2,22))
+                .author(author1)
+                .build();
+        User user = User.builder()
+                .login("user")
+                .password("dXNlcg==")
+                .birthday(LocalDate.of(1945,12,6))
+                .author(author2)
+                .build();
 
         Iterable<User> users = userRepository.saveAll(List.of(admin, user));
 

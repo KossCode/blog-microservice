@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-1">
+        <createSequence sequenceName="authors_id_seq"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-2">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-3">
+        <createTable tableName="authors">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="authors_pkey"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="secondname" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-4">
+        <createTable tableName="blog_user">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-5">
+        <createTable tableName="blog_users">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthday" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-6">
+        <createTable tableName="user_author">
+            <column name="authors_fk" type="BIGINT"/>
+            <column name="users_fk" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-7">
+        <addPrimaryKey columnNames="id" constraintName="blog_user_pkey" tableName="blog_user"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-8">
+        <addPrimaryKey columnNames="id" constraintName="blog_users_pkey" tableName="blog_users"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-9">
+        <addPrimaryKey columnNames="users_fk" constraintName="user_author_pkey" tableName="user_author"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-10">
+        <addForeignKeyConstraint baseColumnNames="authors_fk" baseTableName="user_author" constraintName="fkcgabv01uycfs6ve8a64ge1v8p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="authors"/>
+    </changeSet>
+    <changeSet author="k.kryvoshapka (generated)" id="1667394325206-11">
+        <addForeignKeyConstraint baseColumnNames="users_fk" baseTableName="user_author" constraintName="fksugt59erkpdjgjcl2gukygif3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="blog_users"/>
+    </changeSet>
+</databaseChangeLog>

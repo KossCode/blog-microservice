@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static ua.koss.author.util.TestDataStorage.AuthorDtoStorage.AUTHOR_DTO_1;
 import static ua.koss.author.util.TestDataStorage.AuthorStorage.AUTHOR_1;
-import static ua.koss.author.util.TestDataStorage.HEALTH_CHECK_MESSAGE;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuthorControllerTest {
@@ -27,16 +26,6 @@ public class AuthorControllerTest {
     @Test
     public void index() {
         assertThat(authorController).isNotNull();
-    }
-
-    @Test
-    public void shouldReturnHealthCheckStringWhenHealthCheck()
-    {
-        ResponseEntity<String> stringResponseEntity = authorController.healthCheck();
-
-        assertThat(stringResponseEntity).isNotNull();
-        assertThat(stringResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(stringResponseEntity.getBody()).contains(HEALTH_CHECK_MESSAGE);
     }
 
     @Test

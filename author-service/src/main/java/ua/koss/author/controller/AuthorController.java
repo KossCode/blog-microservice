@@ -60,10 +60,4 @@ public class AuthorController {
                 .status(HttpStatus.CREATED)
                 .body(orUpdateAuthor);
     }
-
-    @GetMapping("/health")
-    public ResponseEntity<String> healthCheck() {
-        log.info("AuthorController: healthCheck() method has been called");
-        return ResponseEntity.ok("Controller is ready to do some stuff");
-    }
 }
