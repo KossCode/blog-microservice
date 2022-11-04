@@ -24,7 +24,7 @@ services:
   gateway-service:
     image: ua.koss/gateway-service:1.0.0
     build:
-      context: ./gateway-service/
+      context: ./infrastructure/gateway-service/
     container_name: gateway-service
     ports:
       - "8080:8080"
@@ -34,7 +34,6 @@ services:
     environment:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
-
   author-service:
     image: ua.koss/author-service:1.0.0
     build:
@@ -69,11 +68,10 @@ services:
     environment:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
-
   eureka-server:
     image: ua.koss/discovery-service:1.0.0
     build:
-      context: ./discovery-service/
+      context: ./infrastructure/discovery-service/
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -84,16 +82,15 @@ services:
     container_name: zipkin-service
     ports:
       - "9411:9411"
-
   grafana:
     image: ua.koss/grafana:latest
     container_name: grafana-service
     build:
-      context: ./config/grafana
+      context: ./infrastructure/config/grafana
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./infrastructure/grafana:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -107,8 +104,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus:/prometheus
+      - ./infrastructure/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./infrastructure/prometheus:/prometheus
     networks:
       monitoring:
         aliases:

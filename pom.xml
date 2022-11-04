@@ -15,8 +15,8 @@
 
 	<packaging>pom</packaging>
 	<modules>
-		<module>discovery-service</module>
-		<module>gateway-service</module>
+		<module>infrastructure/discovery-service</module>
+		<module>infrastructure/gateway-service</module>
 		<module>author-service</module>
 		<module>post-service</module>
 	</modules>

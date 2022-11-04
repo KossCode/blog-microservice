@@ -6,7 +6,7 @@
 		<groupId>ua.koss</groupId>
 		<artifactId>blog-microservice</artifactId>
 		<version>1.0.0</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>discovery-service</artifactId>
