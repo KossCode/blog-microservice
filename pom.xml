@@ -19,7 +19,8 @@
 		<module>infrastructure/gateway-service</module>
 		<module>author-service</module>
 		<module>post-service</module>
-	</modules>
+        <module>config-server</module>
+    </modules>
 
 	<properties>
 		<lombok.version>1.18.24</lombok.version>
