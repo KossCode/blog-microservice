@@ -34,24 +34,35 @@ services:
     environment:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
+  config-server:
+    image: ua.koss/config-server:1.0.0
+    build:
+      context: ./config-server/
+    container_name: config-server
+    ports:
+      - "8888:8888"
   author-service:
     image: ua.koss/author-service:1.0.0
     build:
       context: ./author-service/
     container_name: author-service
+    restart: always
     ports:
       - "8081:8081"
     depends_on:
+      - config-server
       - author-service-postgre-db
       - eureka-server
       - zipkin-service
     environment:
+      - spring.config.import=optional:configserver:http://config-server:8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://author-service-postgre-db:5432/author-service
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=docker
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
-        
+    links:
+      - config-server
   post-service:
     image: ua.koss/post-service:1.0.0
     build:
