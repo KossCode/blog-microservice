@@ -2,6 +2,7 @@ package ua.koss.author.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
+    @Value("${control-message}")
+    private static String message;
+
     @Autowired
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
@@ -42,6 +46,7 @@ public class AuthorController {
 
     @GetMapping
     public ResponseEntity<AllAuthorsDto> getAllAuthors() {
+        log.info(message);
         log.info("AuthorController: getAllAuthors()");
         List<AuthorDto> allAuthors = authorService.findAll();
         AllAuthorsDto authorsResponseObject = AllAuthorsDto
