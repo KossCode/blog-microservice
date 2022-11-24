@@ -31,6 +31,7 @@ services:
     depends_on:
       - post-service
       - author-service
+      - cache
     environment:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
@@ -121,5 +122,11 @@ services:
       monitoring:
         aliases:
           - prometheus
+  cache:
+    image: redis:6.2-alpine
+    container_name: redis-service
+    restart: always
+    ports:
+      - '6379:6379'
 networks:
   monitoring:
