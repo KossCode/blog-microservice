@@ -25,7 +25,7 @@ import java.util.List;
 public class AuthFilter implements GlobalFilter, Ordered {
 
     @Autowired
-    RedisHashComponent redisHashComponent;
+    private RedisHashComponent redisHashComponent;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

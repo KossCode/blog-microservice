@@ -26,7 +26,7 @@ public class RoutesConfig {
     @Value("${POST_URL}")
     private String postServiceUrl;
     @Autowired
-    RedisHashComponent redisHashComponent;
+    private RedisHashComponent redisHashComponent;
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
