@@ -1,0 +1,70 @@
+# values.yaml
+
+authorServicePostgreDb:
+  image: postgres:13.1-alpine
+  username: postgres
+  password: docker
+  database: author-service
+  port: 5432
+
+postServiceMongoDb:
+  image: mongo:latest
+  port: 27017
+
+gatewayService:
+  image: kosstheonly/gateway-service:1.0.0
+  port: 8080
+  zipkinUrl: http://zipkin-service:9411/
+  dependsOn:
+    - post-service
+    - author-service
+    - cache
+
+configServer:
+  image: kosstheonly/config-server:latest
+  port: 8888
+
+authorService:
+  image: kosstheonly/author-service:latest
+  port: 8081
+  datasource:
+    url: jdbc:postgresql://author-service-postgre-db:5432/author-service
+    username: postgres
+    password: docker
+  zipkinUrl: http://zipkin-service:9411/
+  dependsOn:
+    - config-server
+    - author-service-postgre-db
+    - discovery-service
+    - zipkin-service
+
+postService:
+  image: kosstheonly/post-service:latest
+  port: 8082
+  zipkinUrl: http://zipkin-service:9411/
+  dependsOn:
+    - post-service-mongo-db
+    - discovery-service
+    - zipkin-service
+
+discoveryService:
+  image: kosstheonly/discovery-service:1.0.0
+  port: 8761
+
+zipkinService:
+  image: openzipkin/zipkin:latest
+  port: 9411
+
+grafana:
+  image: kosstheonly/grafana:latest
+  port: 3000
+  adminUser: admin
+  adminPassword: admin
+
+prometheus:
+  image: prom/prometheus:latest
+  port: 9090
+
+cache:
+  image: redis:6.2-alpine
+  port: 6379

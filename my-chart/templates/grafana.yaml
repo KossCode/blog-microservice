@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+spec:
+  ports:
+    - port: {{ .Values.grafana.port }}
+  selector:
+    app: grafana-service
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana-service
+  template:
+    metadata:
+      labels:
+        app: grafana-service
+    spec:
+      containers:
+        - name: grafana-service
+          image: {{ .Values.grafana.image }}
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: {{ .Values.grafana.adminUser }}
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: {{ .Values.grafana.adminPassword }}
+          ports:
+            - containerPort: {{ .Values.grafana.port }}
