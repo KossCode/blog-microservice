@@ -22,7 +22,7 @@ services:
 
   #Internal Services
   gateway-service:
-    image: ua.koss/gateway-service:1.0.0
+    image: kosstheonly/gateway-service:latest
     build:
       context: ./infrastructure/gateway-service/
     container_name: gateway-service
@@ -36,14 +36,14 @@ services:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
   config-server:
-    image: ua.koss/config-server:1.0.0
+    image: kosstheonly/config-server:latest
     build:
       context: ./config-server/
     container_name: config-server
     ports:
       - "8888:8888"
   author-service:
-    image: ua.koss/author-service:1.0.0
+    image: kosstheonly/author-service:latest
     build:
       context: ./author-service/
     container_name: author-service
@@ -53,7 +53,7 @@ services:
     depends_on:
       - config-server
       - author-service-postgre-db
-      - eureka-server
+      - discovery-service
       - zipkin-service
     environment:
       - spring.config.import=optional:configserver:http://config-server:8888
@@ -65,7 +65,7 @@ services:
     links:
       - config-server
   post-service:
-    image: ua.koss/post-service:1.0.0
+    image: kosstheonly/post-service:latest
     build:
       context: ./post-service/
     container_name: post-service
@@ -73,15 +73,15 @@ services:
       - "8082:8082"
     depends_on:
       - post-service-mongo-db
-      - eureka-server
+      - discovery-service
       - zipkin-service
     links:
       - post-service-mongo-db
     environment:
       - SPRING_ZIPKIN_BASE_URL=http://zipkin-service:9411/
       - SPRING_ZIPKIN_ENABLED=true
-  eureka-server:
-    image: ua.koss/discovery-service:1.0.0
+  discovery-service:
+    image: kosstheonly/discovery-service:latest
     build:
       context: ./infrastructure/discovery-service/
     container_name: discovery-service
@@ -95,7 +95,7 @@ services:
     ports:
       - "9411:9411"
   grafana:
-    image: ua.koss/grafana:latest
+    image: kosstheonly/grafana:latest
     container_name: grafana-service
     build:
       context: ./infrastructure/config/grafana
@@ -111,7 +111,7 @@ services:
         aliases:
           - grafana
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     container_name: prometheus-service
     ports:
       - "9090:9090"
