@@ -1,3 +1,6 @@
+# Project overview:
+The project is designed to build and manage a blog application using a microservices. It leverages Docker for running multiple containerized services, ensuring modularity and scalability. Additionally, Kubernetes and Helm automate the deployment process, enhancing scalability, reliability, and ease of management.
+
 # How to run a project?
 * `mvn clean package` : command will automatically build whole project with all included modules. Keep patient, it can take some time.
 * `mvn clean package -DskipTests=false` : same thing, but without skipping test cases. You definitely shouldn`t use it. Take longer time.
